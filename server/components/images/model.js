@@ -2,6 +2,10 @@ const {Schema, model} = require('mongoose')
 
 const ImageSchema = Schema({
 
+    name:{
+        type:String
+    },
+
     secure_url: {
         type: String
     },

@@ -16,14 +16,35 @@ require('./database/config')()
 const Model = require('./components/images/model')
 
 
-app.post('/', async (req,res) => {
+app.get('/file', async(req,res) => {
 
-    const {imageURL} = req.body
+    try{
+
+        const data = await (await Model.find()).reverse()
+        
+        res.json({
+            ok:true,
+            data
+        })
+
+    }catch(err){
+
+        res.json({
+            ok:false
+        })
+
+    }
+
+})
+
+app.post('/file/upload', async (req,res) => {
+
+    const {imageURL, name} = req.body
 
     try{
         const {secure_url, public_id} = await cloudinary.uploader.upload(imageURL)
 
-        const image = new Model({secure_url, public_id})
+        const image = new Model({name, secure_url, public_id})
         await image.save()
 
         res.json({
@@ -39,7 +60,7 @@ app.post('/', async (req,res) => {
 
 })
 
-app.delete('/', async(req,res) => {
+app.delete('/file/delete', async(req,res) => {
 
     const {imageID} = req.query
 
