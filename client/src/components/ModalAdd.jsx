@@ -7,7 +7,7 @@ export const ModalAdd = () => {
     
 
     const { setIsModalAddOpen } = useModal()
-    const {fetchData} = useData()
+    const {data ,setData} = useData()
 
     const modalBackgroundRef = useRef()
     const [modalData, setModalData] = useState({
@@ -22,13 +22,17 @@ export const ModalAdd = () => {
         try{
 
             setIsModalAddOpen(false)
-            await axiosInstance.post('/file/upload', modalData)
-            fetchData()
+            const res = await axiosInstance.post('/file/upload', modalData)
+            setData([
+                res.data.image,
+                ...data,
+            ])
+   
 
-        
         }catch(err){
-        }
+    
 
+        }
     }
     
     const closeModal = (e) => {

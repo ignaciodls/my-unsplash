@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback } from "react";
 
 import axiosIntance from "../helper/axios";
 
@@ -8,35 +8,41 @@ const DataContext = React.createContext()
 export function DataProvider(props){
 
     const [data, setData] = useState([])
-    const [selectedToDelete, setSelectedToDelete] = useState()
+    const [selectedToDelete, setSelectedToDelete] = useState('')
     const [query, setQuery] = useState('')
 
-    const fetchData = useCallback(async() => {
-  
-        try{
+    const fetchData = useCallback(() => {
+
+        return new Promise(async(resolve,reject) => {
+            try{
     
-            const res = await axiosIntance.get('/file')
-            setData(res.data.data)
-    
-        }catch(err){
-    
-        }
+                const res = await axiosIntance.get('/file')
+                setData(res.data.data)
+                resolve()
+        
+            }catch(err){
+                reject(err)
+            }
+        })
 
     },[])
 
-    const deleteFile = async() => {
+    const deleteFile = () => {
 
-        try{
+        return new Promise(async(resolve,reject) => {
+            try{
 
-            await axiosIntance.delete('/file/delete',{
-                params:{
-                    imageID:selectedToDelete
-                }
-            })
-
-        }catch(err){
-
-        }
+                await axiosIntance.delete('/file/delete',{
+                    params:{
+                        imageID:selectedToDelete
+                    }
+                })
+                resolve()
+    
+            }catch(err){
+                reject()
+            }
+        })
 
     }
     

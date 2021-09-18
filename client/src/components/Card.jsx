@@ -14,7 +14,7 @@ const Card = ({url,name,id}) => {
 
     return (
         <div className='image-card'>
-            <img src={url} alt="" />
+            <img src={url} alt="img"/>
             <div className='image-options'>
                 <div className='image-name'>
                     {name}

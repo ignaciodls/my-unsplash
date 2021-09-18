@@ -5,7 +5,7 @@ import { useModal } from '../context/modalContext'
 const ModalDelete = () => {
 
     const {setIsModalDeleteOpen} = useModal()
-    const {deleteFile, fetchData} = useData()
+    const {deleteFile, data, setData, selectedToDelete} = useData()
 
     const backgroundModalRef = useRef()
 
@@ -20,8 +20,8 @@ const ModalDelete = () => {
     const handleDelete = async() => {
 
         setIsModalDeleteOpen(false)
+        setData(data.filter(image => image["public_id"] !== selectedToDelete))
         await deleteFile()
-        await fetchData()
 
     }
 

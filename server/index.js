@@ -20,7 +20,7 @@ app.get('/file', async(req,res) => {
 
     try{
 
-        const data = await (await Model.find()).reverse()
+        const data = (await Model.find()).reverse()
         
         res.json({
             ok:true,
@@ -29,7 +29,7 @@ app.get('/file', async(req,res) => {
 
     }catch(err){
 
-        res.json({
+        res.status(500).json({
             ok:false
         })
 
