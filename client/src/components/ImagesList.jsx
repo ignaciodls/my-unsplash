@@ -5,7 +5,7 @@ import { useData } from '../context/context'
 
 const ImagesList = () => {
 
-    const {data,query} = useData()
+    const {data,query, loading} = useData()
 
     const filteredData = useMemo(() => {
 
@@ -25,29 +25,35 @@ const ImagesList = () => {
       };
 
     return (
-
-        <Masonry
-        breakpointCols={breakpointColumnsObj}
-        style={{display:'flex'}}
-        className="my-masonry-grid"
-        columnClassName="my-masonry-grid_column">
-
-            {
-                filteredData.map((obj,idx) => {
-                    return(
-
-                        <Card
-                        key={idx}
-                        url={obj.secure_url}
-                        name={obj.name}
-                        id={obj.public_id}/>
-
-                    )
-                })
-            }
-
-        </Masonry>
-
+        <>
+        {
+            !loading ?
+            (<Masonry
+                breakpointCols={breakpointColumnsObj}
+                style={{display:'flex'}}
+                className="my-masonry-grid"
+                columnClassName="my-masonry-grid_column">
+        
+                    {
+                        filteredData.map((obj,idx) => {
+                            return(
+        
+                                <Card
+                                key={idx}
+                                url={obj.secure_url}
+                                name={obj.name}
+                                id={obj.public_id}/>
+        
+                            )
+                        })
+                    }
+        
+                </Masonry>):
+                <div className='spinner-wrapper'>
+                    <div className='spinner'></div>
+                </div>
+        }
+        </>
     )
 }
 

@@ -10,18 +10,22 @@ export function DataProvider(props){
     const [data, setData] = useState([])
     const [selectedToDelete, setSelectedToDelete] = useState('')
     const [query, setQuery] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const fetchData = useCallback(() => {
 
         return new Promise(async(resolve,reject) => {
             try{
-    
+
+                setLoading(true)
                 const res = await axiosIntance.get('/file')
                 setData(res.data.data)
                 resolve()
-        
+                setLoading(false)
+
             }catch(err){
                 reject(err)
+                setLoading(false)
             }
         })
 
@@ -38,7 +42,7 @@ export function DataProvider(props){
                     }
                 })
                 resolve()
-    
+                
             }catch(err){
                 reject()
             }
@@ -54,7 +58,9 @@ export function DataProvider(props){
         selectedToDelete,
         query,
         setQuery,
-        setSelectedToDelete
+        setSelectedToDelete,
+        loading,
+        setLoading
     }
   
     return <DataContext.Provider value={obj} {...props}/>
